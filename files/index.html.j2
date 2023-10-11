@@ -1,0 +1,9 @@
+<html>
+    <center>
+    <h1>This computer is running {{ ansible_lsb.description }},
+        and its hostname is:</h1>
+    <h3>{{ ansible_hostname }}</h3>
+    <h3> It's IP address is: {{ ansible_default_ipv4.address }}</h3>
+    {# this is a comment, which won't be copied to the index.html file #}
+    </center>
+</html>

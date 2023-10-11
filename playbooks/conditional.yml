@@ -1,0 +1,31 @@
+---
+- hosts: webservers
+  become: true 
+  tasks:
+    - name: Install the apache2 a package
+      package: 
+        name: apache2
+        update_cache: no
+        state: latest
+      notify: Enable apache2
+      when: ansible_os_family == "Debian"
+    
+    - name: Install the httpd a package
+      package: 
+        name: httpd
+        update_cache: no
+        state: latest
+      notify: Enable httpd
+      when: ansible_os_family == "RedHat"
+
+  handlers:  
+    - name: Enable apache2
+      service: 
+        name: apache2
+        enabled: yes 
+        state: restarted
+    - name: Enable httpd
+      service: 
+        name: httpd
+        enabled: yes 
+        state: restarted

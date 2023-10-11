@@ -1,0 +1,23 @@
+---
+# vars file for roles/common
+group_names:
+  - { name: 'cloudadmin', state: 'present' }
+
+user_names:
+  - { name: 'admin1', comment: 'admin1', groups: 'cloudadmin,users', state: 'present' }
+  - { name: 'admin2', comment: 'admin1', groups: 'cloudadmin', state: 'present' }
+  - { name: 'admin3', comment: 'admin1', groups: 'cloudadmin', state: 'present' }
+  - { name: 'user1', comment: 'user1',  groups: 'users', state: 'present' }
+  - { name: 'user2', comment: 'user2', groups: 'users', state: 'present' }
+  - { name: 'user3', comment: 'user3', groups: 'users', state: 'present' }
+
+common_packages:
+  - chrony
+  - xfsprogs
+  - cifs-utils
+  - nfs-common
+  - azure-cli
+  - unzip
+  - jq
+  - lvm2
+

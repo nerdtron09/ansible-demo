@@ -1,0 +1,20 @@
+---
+- hosts: webservers
+  become: true
+  vars:
+    package_name: apache2
+
+  tasks:
+    - name: Install "{{ package_name }}" package
+      package: 
+        name: "{{ package_name }}"
+        update_cache: yes
+        state: latest
+      notify: Enable "{{ package_name }}"
+      
+  handlers:  
+    - name: Enable "{{ package_name }}"
+      service: 
+        name: "{{ package_name }}"
+        enabled: yes 
+        state: restarted

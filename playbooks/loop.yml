@@ -1,0 +1,26 @@
+---
+- hosts: webservers
+  become: true 
+  ignore_unreachable: yes
+
+  tasks:
+    - name: Install multiple packages
+      package: 
+        name: "{{ item }}"
+        update_cache: no
+        state: latest
+      with_items:
+        - vim
+        - htop
+        - mysql-common
+        - non-existent
+      ignore_errors: yes
+    
+    - name: Install another packages
+      package: 
+        name: "{{ item }}"
+        update_cache: no
+        state: latest
+      with_items:
+        - cowsay
+  

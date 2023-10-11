@@ -1,0 +1,15 @@
+---
+- hosts: webservers
+  become: true 
+  
+  vars:
+    foo: "foo"
+
+  tasks:
+    - name: Run the command if "foo" is defined
+      debug: msg="I've got '{{ foo }}' and am not afraid to use it!"
+      when: foo is defined
+
+    - name: Fail if "foo" is undefined
+      fail: msg="Bailing out. This play requires 'foo' to be defined"
+      when: foo is undefined

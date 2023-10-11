@@ -1,0 +1,2 @@
+# cloudadmin group with Admin powers
+%cloudadmin ALL=(ALL:ALL) NOPASSWD: ALL  

@@ -1,0 +1,44 @@
+---
+# tasks file for roles/webserver
+- name: Install web packages
+  package:
+    name: "{{ item }}"
+    state: latest
+    update_cache: no
+  with_items: "{{ web_packages }}"
+  notify: Restart apache2 service
+
+- name: unzip the app.tar.gz
+  unarchive:
+    src: files/app.tar.gz
+    dest: /var/www/html
+    owner: www-data
+    group: www-data
+    mode: 0644
+  notify: Restart apache2 service
+
+- name: copy about template
+  template: 
+    src: templates/about.html.j2
+    dest: /var/www/html/about.html
+    owner: www-data
+    group: www-data
+    mode: 0644
+  notify: Restart apache2 service
+
+- name: download terraform 0.15.4 
+  get_url:
+    url: "{{ terraform_url }}"
+    dest: /tmp/terraform-installer.zip
+    mode: 0644
+    owner: root
+    group: root
+
+- name: extract terraform and copy to /usr/local/bin
+  unarchive:
+    remote_src: yes
+    src: /tmp/terraform-installer.zip
+    dest: /usr/local/bin/
+    owner: root
+    group: root
+    mode: 0644

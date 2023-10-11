@@ -1,0 +1,19 @@
+---
+- hosts: webservers
+  become: true 
+  vars:
+    packages:
+      - vim
+      - htop
+      - mysql-common
+      - curl
+      - wget
+      - sl
+      
+  tasks:
+    - name: Install multiple packages
+      package: 
+        name: "{{ item }}"
+        update_cache: no
+        state: latest
+      with_items: "{{ packages }}"

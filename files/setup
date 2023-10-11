@@ -1,0 +1,24 @@
+web1 xx.xx.xx.xx
+web2 xx.xx.xx.xx
+db1 xx.xx.xx.xx
+db2 xx.xx.xx.xx
+
+ssh-keygen
+sudo useradd -m -c "Ansible User" -s /bin/bash ansibleuser
+sudo su - ansibleuser
+mkdir .ssh                                                                                                           
+vim .ssh/authorized_keys                                                                                             
+chmod 600 .ssh/authorized_keys     
+
+
+# hostfile
+[all]
+# automatically all servers are added here 
+
+[webservers]
+web-001 ansible_host=xx.xx.xx.xx ansible_user=ansibleuser ansible_become_method=sudo ansible_ssh_private_key_file=ansibleuser.pem  
+web-002 ansible_host=xx.xx.xx.xx ansible_user=ansibleuser ansible_become_method=sudo ansible_ssh_private_key_file=ansibleuser.pem  
+
+[dbservers]
+mariadb-001 ansible_host=xx.xx.xx.xx ansible_user=ansibleuser ansible_become_method=sudo ansible_ssh_private_key_file=ansibleuser.pem  
+mariadb-002 ansible_host=xx.xx.xx.xx ansible_user=ansibleuser ansible_become_method=sudo ansible_ssh_private_key_file=ansibleuser.pem  

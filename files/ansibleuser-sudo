@@ -1,0 +1,2 @@
+# ansible user with Admin powers
+ansibleuser ALL=(ALL:ALL) NOPASSWD: ALL

@@ -1,0 +1,7 @@
+---
+- hosts: webservers
+  become: true 
+  roles:
+  - common
+  - webserver
+  ignore_unreachable: yes

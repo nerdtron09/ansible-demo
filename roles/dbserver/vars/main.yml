@@ -1,0 +1,11 @@
+---
+# vars file for roles/dbserver
+db_packages:
+  - mariadb-server
+  - mysql-common
+  - python3-pymysql
+
+db_name: db_name
+db_user: db_user
+db_pass: changeme
+db_backup_folder: /home/ansibleuser/db_backup

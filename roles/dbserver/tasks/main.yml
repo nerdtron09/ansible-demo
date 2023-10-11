@@ -1,0 +1,46 @@
+---
+# tasks file for roles/dbserver
+- name: install db_packages
+  package:
+    name: "{{ item }}"
+    state: latest
+    update_cache: no
+  with_items: "{{ db_packages }}"
+  notify: Restart mariadb service
+
+- name: create a database
+  mysql_db:
+    login_unix_socket: /run/mysqld/mysqld.sock 
+    name: "{{ db_name }}"
+    state: present
+
+- name: create a mysql user
+  mysql_user:
+    login_unix_socket: /run/mysqld/mysqld.sock 
+    name: "{{ db_user }}"
+    password: "{{ db_pass }}"
+    priv: '{{ db_name }}.*:ALL,GRANT'
+    state: present
+
+- name: create dbbackup script folder
+  file:
+    path: "{{ db_backup_folder }}"
+    owner: ansibleuser
+    group: ansibleuser
+    mode: 0755
+    state: directory
+
+- name: backup script to mariadb server
+  copy: 
+    src: files/dbbackup.sh
+    dest: "{{ db_backup_folder }}"
+    owner: ansibleuser
+    group: ansibleuser
+    mode: 0755
+
+- name: create cron entry for the backup script
+  cron:
+    name: DB backup script
+    minute: '0'
+    hour: '1'
+    job: "{{ db_backup_folder }}/dbbackup.sh"

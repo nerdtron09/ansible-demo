@@ -1,0 +1,7 @@
+---
+# handlers file for roles/webserver
+- name: Restart apache2 service
+  service: 
+    name: apache2
+    enabled: yes
+    state: restarted

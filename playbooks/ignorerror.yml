@@ -1,0 +1,27 @@
+---
+- hosts: webservers
+  become: true 
+  tasks:
+    - name: Install the httpd a package
+      package: 
+        name: httpd
+        update_cache: no
+        state: latest
+      ignore_errors: yes
+      ignore_unreachable: yes
+
+    - name: Ensure apache2 is restarted and enabled on startup
+      service: 
+        name: apache2
+        enabled: yes 
+        state: restarted
+      ignore_errors: yes
+      ignore_unreachable: yes
+
+    - name: Copy index.html.j2 to target webservers
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: 0644

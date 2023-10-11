@@ -1,0 +1,16 @@
+---
+- hosts: webservers
+  become: true 
+  tasks:
+    - name: Describe information of host
+      debug:
+        msg: msg="Computer {{ ansible_hostname }} is running {{ ansible_os_family }} or equivalent. Has IP address of {{ ansible_default_ipv4.address }}"
+    
+    - name: Get uptime information
+      shell: /usr/bin/uptime
+      register: result
+
+    - name: Print return information from the previous task
+      debug:
+        var: result
+        verbosity: 2

@@ -1,0 +1,62 @@
+---
+# tasks file for roles/common
+- name: create groups from list
+  group:
+    name:  "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items: "{{ group_names }}"
+
+- name: create users from list
+  user: 
+    name: "{{ item.name }}"
+    groups: "{{ item.groups }}"
+    comment: "{{ item.comment }}"
+    state: "{{ item.state }}"
+    create_home: yes
+    shell: "/bin/bash"
+    append: yes
+  with_items: "{{ user_names }}"
+
+- name: copy sudoers for cloudadmin group
+  copy:
+    src: files/cloudadmin-sudo
+    dest: /etc/sudoers.d/
+    owner: root
+    group: root
+    mode: 0440
+    validate: /usr/sbin/visudo -csf %s
+
+- name: Ensure file permission to 0600
+  file:
+    path: "{{ item }}"
+    owner: root
+    mode: 0600
+  with_items:
+    - /etc/shadow
+    - /var/log/messages
+    - /var/log/syslog
+  ignore_errors: yes
+
+- name: Install common packages
+  package: 
+    name: "{{ item }}"
+    update_cache: no
+    state: latest
+  with_items: "{{ common_packages }}"
+
+- name: Copy chrony.conf to targets
+  copy:
+    src: files/chrony.conf
+    dest: /etc/chrony/chrony.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart chrony service
+
+- name: Copy MOTD banner
+  copy: 
+    src: files/motd
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: 0644

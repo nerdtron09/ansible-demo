@@ -1,0 +1,19 @@
+---
+- hosts: webservers
+  become: true 
+  tasks:
+    - name: Install the apache2 a package
+      package: 
+        name: 
+          - apache2
+          - php-mysql
+        update_cache: yes
+        state: latest
+      notify: Enable apache2
+      
+  handlers:  
+    - name: Enable apache2
+      service: 
+        name: apache2
+        enabled: yes 
+        state: restarted

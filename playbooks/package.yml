@@ -1,0 +1,25 @@
+---
+- hosts: webservers
+  become: true 
+  tasks:
+    - name: Create user testuser
+      user: 
+        name: testuser1
+        create_home: yes
+        shell: /bin/bash
+        groups: sudo
+        append: yes
+    
+    - name: Install the apache2 a package
+      package: 
+        name: 
+          - apache2
+          - php-mysql
+        update_cache: no
+        state: latest
+    
+    - name: Ensure apache2 is restarted and enabled on startup
+      service: 
+        name: apache2
+        enabled: yes 
+        state: restarted

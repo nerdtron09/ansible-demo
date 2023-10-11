@@ -1,0 +1,11 @@
+---
+- hosts: webservers
+  become: true 
+  tasks:
+    - name: Copy index.html.j2 to target webservers
+      template:
+        src: ../files/index.html.j2
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: 0644

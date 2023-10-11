@@ -1,0 +1,28 @@
+---
+- hosts: webservers
+  become: true 
+  tasks:
+  
+  - name: create groups
+    group:
+      name:  "{{ item }}"
+      state: present
+    with_items:
+      - testgroup
+      - cloudusers
+      - normalusers
+ 
+  - name: create users from cloudteam
+    user: 
+      name: "{{ item.name }}"
+      groups: "{{ item.groups }}"
+      uid: "{{ item.uid }}"
+      state: "{{ item.state }}"
+      create_home: yes
+      append: yes
+      shell: "/bin/bash"
+    loop:
+      - { name: 'user1', groups: 'testgroup', uid: 5001, state: 'present' }
+      - { name: 'user2', groups: 'cloudusers', uid: 5002, state: 'present' }
+      - { name: 'user3', groups: 'cloudusers', uid: 5003, state: 'present' }
+      - { name: 'test', groups: 'normalusers', uid: 5004, state: 'absent' }

@@ -1,0 +1,8 @@
+---
+# vars file for roles/webserver
+web_packages:
+  - apache2
+  - php-mysql
+  - mysql-common
+
+terraform_url: "https://releases.hashicorp.com/terraform/0.15.4/terraform_0.15.4_linux_amd64.zip"
