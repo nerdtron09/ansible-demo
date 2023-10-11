@@ -25,6 +25,7 @@ lvm2
 Copy chrony.conf to targets, restart chrony
 
 Add MOTD
+```
 ********************************************************************
 * Legal Notice                                                     *
 * ================================================================ *
@@ -32,6 +33,7 @@ Add MOTD
 * prohibited and can result in civil and criminal penalties.       *
 *                                                                  *
 ********************************************************************
+```
 
 ## Web Server
 Install packages
